@@ -1,45 +1,41 @@
-# datastax-example-template
-A short few sentences describing what is the purpose of the example and what the user will learn
+# Inserting and retrieving Blobs in Java
+This demonstrates how to use mapper to provide DAO's to access Cassandra
 
-e.g.
-This application shows how to use configure your NodeJs application to connect to DDAC/Cassandra/DSE or an Apollo database at runtime.
-
-Contributors: A listing of contributors to this repository linked to their github profile
+Contributors: [Olivier Michallat](https://github.com/olim7t), derived from [here](https://github.com/datastax/java-driver/tree/4.x/examples/src/main/java/com/datastax/oss/driver/examples/mapper)
 
 ## Objectives
-A list of the top objectives that are being demonstrated by this sample
 
-e.g.
-* To demonstrate how to specify at runtime between a standard (DSE/DDAC/C*) client configuration and an Apollo configuration for the same application.
+* To demonstrate how to use mapper to replace the tedious work DAO recreation in Java. Please refer [here](https://docs.datastax.com/en/developer/java-driver/4.3/manual/mapper/mapper/) for more details on using object mapper.
   
 ## Project Layout
-A list of key files within this repo and a short 1-2 sentence description of why they are important to the project
 
-e.g.
-* app.js - The main application file which contains all the logic to switch between the configurations
+* MapperApp.java - The main application file 
 
 ## How this Sample Works
-A description of how this sample works and how it demonstrates the objectives outlined above
+The mapper interface is the top-level entry point to mapping features. It wraps a core driver session, and acts as a factory of DAO objects that will be used to execute requests. This app creates a top level
+mapper in the default keyspace killrvideo. This mapper interface acts as a factory to create and maintain the 
+* userDAO
+* videoDAO
 
+These two DAO's are used to interact with the Cassandra cluster. 
+ 
 ## Setup and Running
 
 ### Prerequisites
-The prerequisites required for this application to run
 
-e.g.
-* NodeJs version 8
-* A DSE 6.7 Cluster
-* Schema added to the cluster
+* Java 8
+* An Apache Cassandra(R) cluster is running and accessible through the contacts points and data center identified in [application.conf](/src/main/resources/application.conf)
 
 ### Running
-The steps and configuration needed to run and build this application
 
 e.g.
 To run this application use the following command:
 
-`node app.js`
+`mvn exec:exec`
 
-This will produce the following output:
+This will create a new keyspace killrvideo and many tables in the keyspace:
 
-`Connected to cluster with 3 host(s) ["XX.XX.XX.136:9042","XX.XX.XX.137:9042","XX.XX.XX.138:9042"]`
+`
+Insert rows into the users, videos and the other tables
+`
 
