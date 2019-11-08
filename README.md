@@ -1,4 +1,4 @@
-# Inserting and retrieving Blobs in Java
+# Use DAO/Entity Mapper interface in Java
 This demonstrates how to use mapper to provide DAO's to access Cassandra
 
 Contributors: [Olivier Michallat](https://github.com/olim7t), derived from [here](https://github.com/datastax/java-driver/tree/4.x/examples/src/main/java/com/datastax/oss/driver/examples/mapper)
