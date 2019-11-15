@@ -1,5 +1,5 @@
 # Object Mapper in Java
-This demonstrates how to use mapper to provide DAO's to access Cassandra
+This shows how to use mapper to provide DAO's to access Cassandra
 
 Contributors: [Olivier Michallat](https://github.com/olim7t), derived from [here](https://github.com/datastax/java-driver/tree/4.x/examples/src/main/java/com/datastax/oss/driver/examples/mapper)
 
@@ -9,15 +9,31 @@ Contributors: [Olivier Michallat](https://github.com/olim7t), derived from [here
   
 ## Project Layout
 
-* MapperApp.java - The main application file 
+* [MapperApp.java](/src/main/java/com/datastax/examples/MapperApp.java) - The main application file 
 
 ## How this Sample Works
-The mapper interface is the top-level entry point to mapping features. It wraps a core driver session, and acts as a factory of DAO objects that will be used to execute requests. This app creates a top level
-mapper in the default keyspace killrvideo. This mapper interface acts as a factory to create and maintain the 
-* userDAO
-* videoDAO
+The driver provides a simple object mapper which allows us to avoid writing much of the boilerplate code 
+required to map query results to and from POJOs.
 
-These two DAO's are used to interact with the Cassandra cluster. 
+To use the mapper requires that several different components be annotated in such a way as to allow them to 
+work together:
+
+* Mapper - This is the entry point for this mapper which wraps the core driver session and acts as a factory for 
+creating the DAO objects.  In this example the mapper is [KillrVideoMapper](/src/main/java/com/datastax/examples/mapper/killrvideo/KillrVideoMapper.java).
+* DAO - Acts as the interface which defines the set of operations which can be performed on an entity.  In this example 
+[VideoDao](/src/main/java/com/datastax/examples/mapper/killrvideo/video/VideoDao.java) and 
+[UserDao](/src/main/java/com/datastax/examples/mapper/killrvideo/user/UserDao.java) are DAO classes.
+* Entity - This is a class which will be mapped to a Cassandra table or UDT.  In this example 
+[Video](/src/main/java/com/datastax/examples/mapper/killrvideo/video/Video.java),  
+[VideoByTag](/src/main/java/com/datastax/examples/mapper/killrvideo/video/VideoByTag.java),  and
+[User](/src/main/java/com/datastax/examples/mapper/killrvideo/user/User.java) are Entity classes
+* Query Provider - These provide a method to define queries which cannont be expressed as static strings.  
+In this example 
+[CreateVideoQueryProvider](/src/main/java/com/datastax/examples/mapper/killrvideo/video/CreateVideoQueryProvider.java),  
+[LoginQueryProvider](/src/main/java/com/datastax/examples/mapper/killrvideo/user/LoginQueryProvider.java) and 
+[CreateUserQueryProvider](/src/main/java/com/datastax/examples/mapper/killrvideo/user/CreateUserQueryProvider.java) are Query Provider classes.
+
+For additional information and details on how to use the Mapper classes please refer to the documentation available [here](https://docs.datastax.com/en/developer/java-driver/4.3/manual/mapper/).
  
 ## Setup and Running
 
@@ -28,14 +44,23 @@ These two DAO's are used to interact with the Cassandra cluster.
 
 ### Running
 
-e.g.
 To run this application use the following command:
 
-`mvn exec:exec`
+`mvn exec:java -Dexec.mainClass=com.datastax.examples.MapperApp`
 
-This will create a new keyspace killrvideo and many tables in the keyspace:
+This will produce results similar to those below.
 
-`
-Insert rows into the users, videos and the other tables
-`
+```
+Reusing existing User[userid=1c8612ce-3ff9-4741-9c29-5f63bbe5d9d4, firstname='test', lastname='user', email='testuser@example.com', createdDate=2019-11-15T17:19:54.129Z]
+Logging in with testuser@example.com/password123: Success
+Logging in with testuser@example.com/secret123: Failure
+Created video [79d302e0-3261-460a-849f-3db992e79899] Getting Started with DataStax Apache Cassandra as a Service on DataStax Constellation
+Videos for test user:
+  [79d302e0-3261-460a-849f-3db992e79899] Getting Started with DataStax Apache Cassandra as a Service on DataStax Constellation
+Latest videos:
+  [79d302e0-3261-460a-849f-3db992e79899] Getting Started with DataStax Apache Cassandra as a Service on DataStax Constellation
+Videos tagged with apachecassandra:
+  [558e036d-a5df-4e1c-9309-e3048d5c34fb] Getting Started with DataStax Apache Cassandra as a Service on DataStax Constellation
+Updated name for video 79d302e0-3261-460a-849f-3db992e79899: Getting Started with DataStax Apache Cassandra® as a Service on DataStax Constellation
+```
 
