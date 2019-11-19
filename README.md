@@ -1,15 +1,15 @@
 # Object Mapper in Java
-This shows how to use mapper to provide DAO's to access Cassandra
+The Java DataStax Driver comes with an object mapper that removes boilerplate of writing queries and lets you focus on your application objects. This example shows how to use mapper to build Data Access Objects ( DAOs ) to access Apache Cassandra™ in a Java application.
 
-Contributors: [Olivier Michallat](https://github.com/olim7t), derived from [here](https://github.com/datastax/java-driver/tree/4.x/examples/src/main/java/com/datastax/oss/driver/examples/mapper)
+Contributor(s): [Olivier Michallat](https://github.com/olim7t) - derived from [here](https://github.com/datastax/java-driver/tree/4.x/examples/src/main/java/com/datastax/oss/driver/examples/mapper)
 
 ## Objectives
 
-* To demonstrate how to use mapper to replace the tedious work DAO recreation in Java. Please refer [here](https://docs.datastax.com/en/developer/java-driver/4.3/manual/mapper/mapper/) for more details on using object mapper.
+* Demonstrate how to use the Java Driver object mapper to replace the tedious work of DAO recreation in Java. Reference the [documentation](https://docs.datastax.com/en/developer/java-driver/latest/manual/mapper/mapper/) for details about the object mapper.
   
 ## Project Layout
 
-* [MapperApp.java](/src/main/java/com/datastax/examples/MapperApp.java) - The main application file 
+* [MapperApp.java](/src/main/java/com/datastax/examples/MapperApp.java) - The main application file that uses the [`video`](/src/main/java/com/datastax/examples/mapper/killrvideo/video/) and [`user`](/src/main/java/com/datastax/examples/mapper/killrvideo/user/) DAOs.
 
 ## How this Sample Works
 The driver provides a simple object mapper which allows us to avoid writing much of the boilerplate code 
@@ -40,7 +40,7 @@ For additional information and details on how to use the Mapper classes please r
 ### Prerequisites
 
 * Java 8
-* An Apache Cassandra(R) cluster is running and accessible through the contacts points and data center identified in [application.conf](/src/main/resources/application.conf)
+* A Cassandra cluster is running and accessible through the contacts points and data center identified in [application.conf](/src/main/resources/application.conf)
 
 ### Running
 
@@ -54,13 +54,13 @@ This will produce results similar to those below.
 Reusing existing User[userid=1c8612ce-3ff9-4741-9c29-5f63bbe5d9d4, firstname='test', lastname='user', email='testuser@example.com', createdDate=2019-11-15T17:19:54.129Z]
 Logging in with testuser@example.com/password123: Success
 Logging in with testuser@example.com/secret123: Failure
-Created video [79d302e0-3261-460a-849f-3db992e79899] Getting Started with DataStax Apache Cassandra as a Service on DataStax Constellation
+Created video [79d302e0-3261-460a-849f-3db992e79899] Join us at DataStax Accelerate 2020
 Videos for test user:
-  [79d302e0-3261-460a-849f-3db992e79899] Getting Started with DataStax Apache Cassandra as a Service on DataStax Constellation
+  [79d302e0-3261-460a-849f-3db992e79899] Join us at DataStax Accelerate 2020
 Latest videos:
-  [79d302e0-3261-460a-849f-3db992e79899] Getting Started with DataStax Apache Cassandra as a Service on DataStax Constellation
+  [79d302e0-3261-460a-849f-3db992e79899] Join us at DataStax Accelerate 2020
 Videos tagged with apachecassandra:
-  [558e036d-a5df-4e1c-9309-e3048d5c34fb] Getting Started with DataStax Apache Cassandra as a Service on DataStax Constellation
-Updated name for video 79d302e0-3261-460a-849f-3db992e79899: Getting Started with DataStax Apache Cassandra® as a Service on DataStax Constellation
+  [558e036d-a5df-4e1c-9309-e3048d5c34fb] Join us at DataStax Accelerate 2020
+Updated name for video 79d302e0-3261-460a-849f-3db992e79899: Join us at DataStax Accelerate 2020, in sunny San Diego!
 ```
 
