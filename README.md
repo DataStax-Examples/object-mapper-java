@@ -1,5 +1,5 @@
 # Object Mapper in Java
-The Java DataStax Driver comes with an object mapper that removes boilerplate of writing queries and lets you focus on your application objects. This example shows how to use mapper to build Data Access Objects ( DAOs ) to access Apache Cassandra™ in a Java application.
+The [Java DataStax Driver](https://docs.datastax.com/en/developer/java-driver/latest/) comes with an object mapper that removes boilerplate of writing queries and lets you focus on your application objects. This example shows how to use mapper to build Data Access Objects ( DAOs ) to access Apache Cassandra™ in a Java application.
 
 Contributor(s): [Olivier Michallat](https://github.com/olim7t) - derived from [here](https://github.com/datastax/java-driver/tree/4.x/examples/src/main/java/com/datastax/oss/driver/examples/mapper)
 
