@@ -115,8 +115,8 @@ public class MapperApp {
       Video video = new Video();
       video.setUserid(user.getUserid());
       video.setName(
-          "Getting Started with DataStax Apache Cassandra as a Service on DataStax Constellation");
-      video.setLocation("https://www.youtube.com/watch?v=68xzKpcZURA");
+          "Join us at DataStax Accelerate 2020");
+      video.setLocation("https://www.youtube.com/watch?v=P5pV-vAahYU");
       Set<String> tags = new HashSet<>();
       tags.add("apachecassandra");
       tags.add("nosql");
@@ -149,7 +149,7 @@ public class MapperApp {
       Video template = new Video();
       template.setVideoid(video.getVideoid());
       template.setName(
-          "Getting Started with DataStax Apache Cassandra® as a Service on DataStax Constellation");
+          "Join us at DataStax Accelerate 2020, in sunny San Diego!");
       videoDao.update(template);
       // Reload the whole entity and check the fields
       video = videoDao.get(video.getVideoid());
