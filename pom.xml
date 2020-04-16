@@ -6,7 +6,7 @@
 
   <groupId>com.datastax.examples</groupId>
   <artifactId>object-mapper</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
 
   <properties>
     <datastax-driver.version>4.3.0</datastax-driver.version>
@@ -34,7 +34,11 @@
       <artifactId>bcrypt</artifactId>
       <version>0.7.0</version>
     </dependency>
-
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.2.3</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -43,26 +47,33 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>8</source>
-          <target>8</target>
+          <source>14</source>
+          <target>14</target>
         </configuration>
       </plugin>
 
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.6.0</version>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
         <configuration>
-          <executable>java</executable>
-          <arguments>
-            <argument>-classpath</argument>
-            <!-- automatically creates the classpath using all project dependencies,
-                also adding the project build directory -->
-            <classpath />
-            <argument>com.datastax.examples.MapperApp</argument>
-          </arguments>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+          <archive>
+            <manifest>
+              <mainClass>com.datastax.examples.MapperApp</mainClass>
+            </manifest>
+          </archive>
+          <finalName>${artifactId}-${version}</finalName>
+          <appendAssemblyId>false</appendAssemblyId>
         </configuration>
-
       </plugin>
     </plugins>
   </build>
