@@ -15,8 +15,10 @@
  */
 package com.datastax.examples;
 
+import com.datastax.examples.mapper.killrvideo.KillrVideoMapper;
 import com.datastax.examples.mapper.killrvideo.user.User;
 import com.datastax.examples.mapper.killrvideo.user.UserDao;
+import com.datastax.examples.mapper.killrvideo.video.LatestVideo;
 import com.datastax.examples.mapper.killrvideo.video.UserVideo;
 import com.datastax.examples.mapper.killrvideo.video.Video;
 import com.datastax.examples.mapper.killrvideo.video.VideoByTag;
@@ -25,12 +27,9 @@ import com.datastax.oss.driver.api.core.CqlIdentifier;
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.PagingIterable;
 import com.datastax.oss.driver.api.core.cql.SimpleStatement;
-import com.datastax.examples.mapper.killrvideo.KillrVideoMapper;
-import com.datastax.examples.mapper.killrvideo.video.LatestVideo;
 
 import java.net.URI;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -40,6 +39,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -114,9 +114,8 @@ public class MapperApp {
 
       Video video = new Video();
       video.setUserid(user.getUserid());
-      video.setName(
-          "Join us at DataStax Accelerate 2020");
-      video.setLocation("https://www.youtube.com/watch?v=P5pV-vAahYU");
+      video.setName("Accelerate: A NoSQL Original Series (TRAILER)");
+      video.setLocation("https://www.youtube.com/watch?v=LulWy8zmrog");
       Set<String> tags = new HashSet<>();
       tags.add("apachecassandra");
       tags.add("nosql");
@@ -149,7 +148,7 @@ public class MapperApp {
       Video template = new Video();
       template.setVideoid(video.getVideoid());
       template.setName(
-          "Join us at DataStax Accelerate 2020, in sunny San Diego!");
+          "Accelerate: A NoSQL Original Series - join us online!");
       videoDao.update(template);
       // Reload the whole entity and check the fields
       video = videoDao.get(video.getVideoid());
@@ -179,16 +178,11 @@ public class MapperApp {
   }
 
   private static List<String> getStatements(String fileName) throws Exception {
-    URL url = null;
-    try{
-      url = ClassLoader.getSystemResource(fileName);
-    } catch(Throwable t){
-      t.printStackTrace();
-    }
-    URI uri = url.toURI();
-    Path path = Paths.get(ClassLoader.getSystemResource(fileName).toURI());
+    URI uri = Thread.currentThread().getContextClassLoader().getResource(fileName).toURI();
+    FileSystems.newFileSystem(uri, Map.of("create", "true"));
+    Path path = Paths.get(uri);
 
-    String contents = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+    String contents = Files.readString(path);
     return Arrays.stream(contents.split(";"))
         .map(String::trim)
         .filter(s -> !s.isEmpty())
