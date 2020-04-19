@@ -9,7 +9,8 @@
   <version>1.0</version>
 
   <properties>
-    <datastax-driver.version>4.3.0</datastax-driver.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <datastax-driver.version>4.5.1</datastax-driver.version>
   </properties>
 
 
@@ -71,7 +72,7 @@
               <mainClass>com.datastax.examples.MapperApp</mainClass>
             </manifest>
           </archive>
-          <finalName>${artifactId}-${version}</finalName>
+          <finalName>${project.artifactId}-${project.version}</finalName>
           <appendAssemblyId>false</appendAssemblyId>
         </configuration>
       </plugin>
