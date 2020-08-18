@@ -29,6 +29,7 @@ import com.datastax.oss.driver.api.core.PagingIterable;
 import com.datastax.oss.driver.api.core.cql.SimpleStatement;
 
 import java.net.URI;
+import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -37,9 +38,9 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -178,10 +179,17 @@ public class MapperApp {
   }
 
   private static List<String> getStatements(String fileName) throws Exception {
-    URI uri = Thread.currentThread().getContextClassLoader().getResource(fileName).toURI();
-    FileSystems.newFileSystem(uri, Map.of("create", "true"));
-    Path path = Paths.get(uri);
-
+    URI uri = MapperApp.class.getClassLoader().getResource(fileName).toURI();
+    Path path;
+    if (uri.toString().contains("!")) {
+      // This happens when the file is in a packaged JAR
+      String[] parts = uri.toString().split("!");
+      assert parts.length == 2;
+      FileSystem fs = FileSystems.newFileSystem(URI.create(parts[0]), Collections.emptyMap());
+      path = fs.getPath(parts[1]);
+    } else {
+      path = Paths.get(uri);
+    }
     String contents = Files.readString(path);
     return Arrays.stream(contents.split(";"))
         .map(String::trim)
